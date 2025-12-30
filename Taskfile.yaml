@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+# ---
+# Docs:
+# https://taskfile.dev/
+# https://taskfile.dev/docs/reference/schema
+version: '3'
+
+vars:
+  DEBUG: false
+
+tasks:
+  default:
+    silent: true
+    cmd: |
+      echo "List all available tests with:"
+      echo "[$] task --list-all"
+
+  rebuild:test:
+    desc: Tests the current configuration without switching to it
+    interactive: true
+    cmds:
+      - cmd: nixos-rebuild test --sudo {{if .DEBUG}}--show-trace --verbose{{end}}
+
+  rebuild:switch:
+    desc: Builds new configuration and switches to it
+    interactive: true
+    cmds:
+      - cmd: nixos-rebuild switch --sudo
+
+  gc:
+    desc: Runs Nix garbage collection cycle
+    interactive: true
+    cmds:
+      - cmd: sudo nix-collect-garbage --delete-older-than 7d
+      - cmd: sudo nix-store --gc
+      - cmd: sudo nix-store --optimise
+
+
+# eof
