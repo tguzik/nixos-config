@@ -141,6 +141,7 @@
     packages = with pkgs; [
       calibre
       devenv
+      ffmpeg
       firefox
       gdb
       ghex
@@ -155,7 +156,9 @@
       spotify
       thunderbird
       veracrypt
+      vlc
       vscodium
+      zed-editor
     ];
   };
 
