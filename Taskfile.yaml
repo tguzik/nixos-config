@@ -3,7 +3,7 @@
 # Docs:
 # https://taskfile.dev/
 # https://taskfile.dev/docs/reference/schema
-version: '3'
+version: "3"
 
 vars:
   DEBUG: false
@@ -34,6 +34,5 @@ tasks:
       - cmd: sudo nix-collect-garbage --delete-older-than 7d
       - cmd: sudo nix-store --gc
       - cmd: sudo nix-store --optimise
-
 
 # eof

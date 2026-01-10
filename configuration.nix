@@ -13,19 +13,31 @@
   nixpkgs.config.allowUnfree = true;
 
   nix = {
-    # Perform garbage collection weekly to maintain low disk usage
+    extraOptions = "experimental-features = nix-command flakes";
+
     gc = {
+      # Perform garbage collection weekly to maintain low disk usage
       automatic = true;
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
 
-    # Optimize storage
-    # You can also manually optimize the store via:
-    #    nix-store --optimise
-    # Refer to the following link for more details:
-    # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-    settings.auto-optimise-store = true;
+    settings = {
+      # Optimize storage
+      # You can also manually optimize the store via:
+      #    nix-store --optimise
+      # Refer to the following link for more details:
+      # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
+      auto-optimise-store = true;
+
+      # Allow DevEnv to merge binary caches with the system Nix store
+      extra-substituters = [
+        "https://devenv.cachix.org"
+      ];
+      extra-trusted-public-keys = [
+        "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+      ];
+    };
   };
 
   boot = {
@@ -87,7 +99,7 @@
       LC_TIME = "pl_PL.UTF-8";
     };
   };
-  
+
   services = {
     xserver = {
       # Enable the X11 windowing system.
@@ -132,12 +144,14 @@
   # Enable sound with pipewire.
   security.rtkit.enable = true;
 
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tguzik = {
     isNormalUser = true;
     description = "tguzik";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
       calibre
       devenv
@@ -175,7 +189,6 @@
     # };
   };
 
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -197,7 +210,6 @@
     vim
     wget
   ];
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
