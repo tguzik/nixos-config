@@ -35,4 +35,9 @@ tasks:
       - cmd: sudo nix-store --gc
       - cmd: sudo nix-store --optimise
 
+  lint:
+    desc: Runs static code analysis on source files
+    cmds:
+      - cmd: deadnix .
+
 # eof

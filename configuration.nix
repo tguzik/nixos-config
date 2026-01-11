@@ -2,43 +2,24 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
+    # Include individual components
+    ./components/baseline
+    ./components/gnupg.nix
+    ./components/flatpak.nix
+    ./components/podman.nix
+    ./components/sudo.nix
+
+    # Other stuff
   ];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  nix = {
-    extraOptions = "experimental-features = nix-command flakes";
-
-    gc = {
-      # Perform garbage collection weekly to maintain low disk usage
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-
-    settings = {
-      # Optimize storage
-      # You can also manually optimize the store via:
-      #    nix-store --optimise
-      # Refer to the following link for more details:
-      # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-      auto-optimise-store = true;
-
-      # Allow DevEnv to merge binary caches with the system Nix store
-      extra-substituters = [
-        "https://devenv.cachix.org"
-      ];
-      extra-trusted-public-keys = [
-        "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
-      ];
-    };
-  };
 
   boot = {
     # Bootloader.
@@ -54,9 +35,6 @@
 
     # Use latest kernel.
     kernelPackages = pkgs.linuxPackages_latest;
-
-    # Tasks to be performed on bootup
-    tmp.cleanOnBoot = true;
   };
 
   networking = {
@@ -76,28 +54,6 @@
     # networking.firewall.allowedUDPPorts = [ ... ];
     # Or disable the firewall altogether.
     # networking.firewall.enable = false;
-  };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Warsaw";
-
-  # Configure console keymap
-  console.keyMap = "pl2";
-
-  i18n = {
-    # Select internationalisation properties.
-    defaultLocale = "en_US.UTF-8";
-    extraLocaleSettings = {
-      LC_ADDRESS = "pl_PL.UTF-8";
-      LC_IDENTIFICATION = "pl_PL.UTF-8";
-      LC_MEASUREMENT = "pl_PL.UTF-8";
-      LC_MONETARY = "pl_PL.UTF-8";
-      LC_NAME = "pl_PL.UTF-8";
-      LC_NUMERIC = "pl_PL.UTF-8";
-      LC_PAPER = "pl_PL.UTF-8";
-      LC_TELEPHONE = "pl_PL.UTF-8";
-      LC_TIME = "pl_PL.UTF-8";
-    };
   };
 
   services = {
@@ -189,27 +145,37 @@
     # };
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    btop
-    file
-    gitFull
-    gnupg
-    go-task
-    kopia
-    mc
-    nano
-    netcat-gnu
-    nix-diff
-    nixfmt
-    podman
-    ripgrep
-    tmux
-    vim
-    wget
-  ];
+  environment = {
+    # List packages installed in system profile. To search, run:
+    # $ nix search wget
+    systemPackages = with pkgs; [
+      # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      btop
+      file
+      gitFull
+      go-task
+      kopia
+      mc
+      nano
+      netcat-gnu
+      nix-diff
+      nixfmt
+      ripgrep
+      tmux
+      vim
+      wget
+    ];
+
+    # System-level variables
+    variables = {
+      EDITOR = "vim";
+    };
+
+    # Session-specific variables
+    sessionVariables = {
+      BROWSER = "firefox";
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

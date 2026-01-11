@@ -3,13 +3,7 @@
 # 1) Ensure basic utilities are always available, regardless on which system the edits are made
 # 2) Leverage integrations with pre-commit hooks
 #
-{
-  pkgs,
-  lib,
-  config,
-  inputs,
-  ...
-}:
+{ pkgs, ... }:
 {
   # See full reference at https://devenv.sh/reference/options/
 
@@ -27,6 +21,9 @@
     git
     go-task
     gnupg
+
+    deadnix # Find and remove dead code in .nix files
+    nvd # Display a diff between Nix profiles/flakes/generations
   ];
 
   git-hooks.hooks = {
