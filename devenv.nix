@@ -24,9 +24,11 @@
 
     deadnix # Find and remove dead code in .nix files
     nvd # Display a diff between Nix profiles/flakes/generations
+    statix # Static analysis of .nix files
   ];
 
   git-hooks.hooks = {
+    deadnix.enable = true;
     gitlint.enable = true;
     markdownlint = {
       enable = true;
@@ -40,6 +42,7 @@
     };
     nixfmt.enable = true;
     no-commit-to-branch.enable = false;
+    statix.enable = true;
     shellcheck.enable = true;
     trufflehog.enable = true;
     yamllint = {

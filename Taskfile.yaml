@@ -39,5 +39,6 @@ tasks:
     desc: Runs static code analysis on source files
     cmds:
       - cmd: deadnix .
+      - cmd: statix check .
 
 # eof

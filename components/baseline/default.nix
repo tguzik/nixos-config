@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   imports = [
     ./nix-baseline.nix
     ./locale.nix

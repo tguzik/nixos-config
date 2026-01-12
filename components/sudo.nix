@@ -1,7 +1,7 @@
 # Docs & reference:
 # https://wiki.nixos.org/wiki/Sudo
 #
-{ ... }:
+_:
 let
   swBin = "/run/current-system/sw/bin";
   wrappersBin = "/run/wrappers/bin";

@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   time.timeZone = "Europe/Warsaw";
   console.keyMap = "pl2";
   i18n = {
