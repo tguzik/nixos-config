@@ -13,8 +13,20 @@ in
       {
         groups = [ "wheel" ];
         commands = [
+          # We're using the name of the symlink in the final system image instead of, for
+          # example `"${pkgs.systemd}/bin/shutdown"`, because in the final system it is the symlink
+          # that will be invoked and sudo matches against the invoked command and not the resolved
+          # binary
           {
-            command = "${swBin}/systemctl";
+            command = "${swBin}/shutdown";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "${swBin}/reboot";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "${swBin}/poweroff";
             options = [ "NOPASSWD" ];
           }
           {
