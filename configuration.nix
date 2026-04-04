@@ -1,7 +1,10 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
+#
+# Ideas for later:
+# - [...]
+#
 { pkgs, ... }:
 {
   imports = [
@@ -10,12 +13,21 @@
 
     # Include individual components
     ./components/baseline
+
+    # TODO: Convert system configuration into a flake, but do so in a different feature branch
+    ./components/sops-secrets.nix
+    ./components/openssh
+
     ./components/gnupg.nix
     ./components/flatpak.nix
     ./components/podman.nix
     ./components/sudo.nix
 
     # Other stuff
+
+    # Include settings containing non-public data
+    ./homestead/networks.nix
+    ./homestead/cifs.nix
   ];
 
   # Allow unfree packages
@@ -105,6 +117,7 @@
     isNormalUser = true;
     description = "tguzik";
     extraGroups = [
+      "cifs"
       "networkmanager"
       "wheel"
     ];
@@ -133,16 +146,11 @@
   };
 
   programs = {
-    # Install firefox.
     firefox.enable = true;
 
     # Some programs need SUID wrappers, can be configured further or are
     # started in user sessions.
     # mtr.enable = true;
-    # gnupg.agent = {
-    #   enable = true;
-    #   enableSSHSupport = true;
-    # };
   };
 
   environment = {
@@ -184,5 +192,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11"; # Did you read the comment?
-
 }

@@ -22,6 +22,10 @@
     go-task
     gnupg
 
+    sops # Secret management, https://github.com/getsops/sops
+    age # Secret encryption, https://github.com/FiloSottile/age + https://github.com/Mic92/sops-nix
+    ssh-to-age # Create age key based on machine's SSH key https://github.com/Mic92/ssh-to-age
+
     deadnix # Find and remove dead code in .nix files
     nvd # Display a diff between Nix profiles/flakes/generations
     statix # Static analysis of .nix files

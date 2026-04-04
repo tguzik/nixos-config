@@ -1,0 +1,17 @@
+# Docs:
+# https://github.com/Mic92/sops-nix?tab=readme-ov-file#usage-example
+#
+# This example uses YAML anchors which allows reuse of multiple keys without having to repeat oneself.
+# Also see https://github.com/Mic92/dotfiles/blob/d6114726d859df36ccaa32891c4963ae5717ef7f/nixos/.sops.yaml
+# for a more complex example.
+keys:
+  - &user_tguzik age1u0hzfzehcjtvrjmxzvu5h74cgkrdyzfh5f8lh2dfxwdxq4d2g3zqlm2623
+  - &machine_hermes age1en6wd2jdnz8x8mcjskx7e5z6w0sxp88ll4f3yahwgdt8jw53jv9sshtcqn
+creation_rules:
+  - path_regex: secrets-sops/[^/]+\.(yaml|json|env|ini|properties)$
+    key_groups:
+      - age:
+          - *user_tguzik
+          - *machine_hermes
+
+# eof

@@ -7,6 +7,14 @@ version: "3"
 
 vars:
   DEBUG: false
+  MACHINE_SSH_PUBKEY: "/etc/ssh/ssh_host_ed25519_key.pub"
+  SECRETS_AGE_DIR:
+    sh: echo "${HOME}/.config/sops/age"
+  SECRETS_AGE_FILE: "keys.txt"
+  SECRETS_AGE_EFFECTIVE: "{{ .SECRETS_AGE_DIR }}/{{ .SECRETS_AGE_FILE }}"
+  SECRETS_SOPS_DIR: "secrets-sops"
+  SECRETS_SOPS_FILES:
+    - "main-keystore.yaml"
 
 tasks:
   default:
@@ -27,6 +35,12 @@ tasks:
     cmds:
       - cmd: nixos-rebuild switch --sudo
 
+  lint:
+    desc: Runs static code analysis on source files
+    cmds:
+      - cmd: deadnix .
+      - cmd: statix check .
+
   gc:
     desc: Runs Nix garbage collection cycle
     interactive: true
@@ -35,10 +49,49 @@ tasks:
       - cmd: sudo nix-store --gc
       - cmd: sudo nix-store --optimise
 
-  lint:
-    desc: Runs static code analysis on source files
+  secrets:age:
+    desc: Prints public Age keys for the current user and current machine
+    silent: true
+    preconditions:
+      - sh: command -v age-keygen
+        msg: The age-keygen command was not found.
+      - sh: test -f {{ .SECRETS_AGE_EFFECTIVE | shellQuote }}
+        msg: |
+          Key file does not exists: {{ .SECRETS_AGE_EFFECTIVE }}
+          Make sure you have generated the key with the other task first.
+
+      - sh: test -f {{ .MACHINE_SSH_PUBKEY | shellQuote }}
+        msg: |
+          Machine's public SSH key does not exist: {{ .MACHINE_SSH_PUBKEY }}
+          Make sure you have enabled the OpenSSH Nix service and ran nixos-rebuild.
     cmds:
-      - cmd: deadnix .
-      - cmd: statix check .
+      - cmd: echo "Public Age key of the current user:"
+      - cmd: age-keygen -y {{ .SECRETS_AGE_EFFECTIVE | shellQuote }}
+      - cmd: echo -e "\nPublic Age key converted from the current machine's SSH key:"
+      - cmd: ssh-to-age < {{ .MACHINE_SSH_PUBKEY | shellQuote }}
+
+  secrets:age:keygen:personal:
+    desc: Generates a new personal Age public/private keypair
+    preconditions:
+      - sh: command -v age-keygen
+        msg: The age-keygen command was not found.
+      - sh: test ! -f {{ .SECRETS_AGE_EFFECTIVE | shellQuote }}
+        msg: |
+          Key file already exists: {{ .SECRETS_AGE_EFFECTIVE }}
+    prompt: "This will create file {{ .SECRETS_AGE_EFFECTIVE }}. Are you sure?"
+    cmds:
+      - cmd: mkdir -p  {{ .SECRETS_AGE_DIR | shellQuote }}
+      - cmd: age-keygen -o  {{ .SECRETS_AGE_EFFECTIVE | shellQuote }}
+
+  secrets:sops:update-keys:
+    desc: Re-encrypt SOPS secrets after adding or updating keys
+    preconditions:
+      - sh: command -v sops
+        msg: The sops command was not found.
+    cmds:
+      - for:
+          var: SECRETS_SOPS_FILES
+          as: SINGLE_FILE
+        cmd: sops updatekeys {{ .SECRETS_SOPS_DIR | shellQuote }}/{{ .SINGLE_FILE | shellQuote }}
 
 # eof
