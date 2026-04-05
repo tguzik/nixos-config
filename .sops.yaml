@@ -8,7 +8,7 @@ keys:
   - &user_tguzik age1u0hzfzehcjtvrjmxzvu5h74cgkrdyzfh5f8lh2dfxwdxq4d2g3zqlm2623
   - &machine_hermes age1en6wd2jdnz8x8mcjskx7e5z6w0sxp88ll4f3yahwgdt8jw53jv9sshtcqn
 creation_rules:
-  - path_regex: secrets-sops/[^/]+\.(yaml|json|env|ini|properties)$
+  - path_regex: homestead/[^/]+\.(yaml|json|env|ini|properties)$
     key_groups:
       - age:
           - *user_tguzik

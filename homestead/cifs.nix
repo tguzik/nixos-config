@@ -1,16 +1,16 @@
 { config, pkgs, ... }:
 let
-  access_group = config.users.groups.cifs.name;
+  access_group_name = config.users.groups.cifs.name;
 in
 {
+  imports = [
+    # Ensure sops setup is loaded:
+    ./sops-secrets.nix
+  ];
+
   # Package required for mount.cifs (can be skipped if domain name resolution is not needed):
   environment.systemPackages = with pkgs; [
     cifs-utils
-  ];
-
-  # Ensure sops setup is loaded:
-  imports = [
-    ../components/sops-secrets.nix
   ];
 
   # Declare sops secret related to samba/cifs:
@@ -52,7 +52,7 @@ in
 
         # Restrict access only to users within the local group:
         "uid=0"
-        "gid=${access_group}"
+        "gid=${access_group_name}"
         "dir_mode=0770"
         "file_mode=0660"
         "forceuid"

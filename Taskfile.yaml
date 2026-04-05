@@ -12,9 +12,9 @@ vars:
     sh: echo "${HOME}/.config/sops/age"
   SECRETS_AGE_FILE: "keys.txt"
   SECRETS_AGE_EFFECTIVE: "{{ .SECRETS_AGE_DIR }}/{{ .SECRETS_AGE_FILE }}"
-  SECRETS_SOPS_DIR: "secrets-sops"
+  SECRETS_SOPS_DIR: "homestead"
   SECRETS_SOPS_FILES:
-    - "main-keystore.yaml"
+    - "sops-keystore.yaml"
 
 tasks:
   default:
@@ -23,17 +23,39 @@ tasks:
       echo "List all available tests with:"
       echo "[$] task --list-all"
 
-  rebuild:test:
-    desc: Tests the current configuration without switching to it
-    interactive: true
+  build:
+    desc: Builds new configuration without switching to it
     cmds:
-      - cmd: nixos-rebuild test --sudo {{if .DEBUG}}--show-trace --verbose{{end}}
+      - task: rebuild:internal
+        vars:
+          COMMAND: build
+          DEBUG: true
 
-  rebuild:switch:
-    desc: Builds new configuration and switches to it
-    interactive: true
+  test:
+    desc: Builds new configuration without updating the system symlink
     cmds:
-      - cmd: nixos-rebuild switch --sudo
+      - task: rebuild:internal
+        vars:
+          COMMAND: test
+
+  switch:
+    desc: Builds new configuration and switches to it
+    cmds:
+      - task: rebuild:internal
+        vars:
+          COMMAND: switch
+
+  rebuild:internal:
+    internal: true
+    requires:
+      vars:
+        - COMMAND
+    vars:
+      # The only reason why we're declaring these as variables is to shorten the line with the actual command
+      EFFECTIVE_DEBUG: "{{if .DEBUG}}--show-trace --verbose{{end}}"
+      EFFECTIVE_FLAKE: ".{{if .HOST}}#{{.HOST | shellQuote}}{{end}}"
+    cmds:
+      - cmd: nixos-rebuild {{.COMMAND | shellQuote}} --sudo {{.EFFECTIVE_DEBUG}} --flake {{.EFFECTIVE_FLAKE}}
 
   lint:
     desc: Runs static code analysis on source files

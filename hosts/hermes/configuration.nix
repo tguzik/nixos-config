@@ -12,22 +12,18 @@
     ./hardware-configuration.nix
 
     # Include individual components
-    ./components/baseline
+    ../../modules/baseline
+    ../../modules/openssh
 
-    # TODO: Convert system configuration into a flake, but do so in a different feature branch
-    ./components/sops-secrets.nix
-    ./components/openssh
-
-    ./components/gnupg.nix
-    ./components/flatpak.nix
-    ./components/podman.nix
-    ./components/sudo.nix
-
-    # Other stuff
+    ../../modules/gnupg.nix
+    ../../modules/flatpak.nix
+    ../../modules/podman.nix
+    ../../modules/sudo.nix
 
     # Include settings containing non-public data
-    ./homestead/networks.nix
-    ./homestead/cifs.nix
+    ../../homestead/sops-secrets.nix
+    ../../homestead/networks.nix
+    ../../homestead/cifs.nix
   ];
 
   # Allow unfree packages

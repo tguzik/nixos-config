@@ -9,23 +9,22 @@ let
   #      WIFI_02_SSID=<...>
   #      WIFI_02_PSK=<...>
   #
-  network-sops-secret-name = "network/wireless";
-  network-placeholder-names = [
+  network_sops_secret_name = "network/wireless";
+  network_placeholder_names = [
     # Names must match entries in sops file
     "WIFI_01"
     "WIFI_02"
     "WIFI_03"
-    "WIFI_04"
   ];
 in
 {
-  # Ensure sops setup is loaded:
   imports = [
-    ../components/sops-secrets.nix
+    # Ensure sops setup is loaded:
+    ./sops-secrets.nix
   ];
 
   # Declare sops secret related to network data:
-  sops.secrets."${network-sops-secret-name}" = { };
+  sops.secrets."${network_sops_secret_name}" = { };
 
   networking.networkmanager = {
     enable = true;
@@ -33,10 +32,10 @@ in
     ensureProfiles = {
       # Import contents of sops secret as .env file:
       environmentFiles = [
-        config.sops.secrets."${network-sops-secret-name}".path
+        config.sops.secrets."${network_sops_secret_name}".path
       ];
 
-      # Declare profiles with names from the network-placeholder-names variable and using .env substitutions
+      # Declare profiles with names from the network_placeholder_names variable and using .env substitutions
       # for SSID/PSK from sops secrets:
       profiles = builtins.listToAttrs (
         map (
@@ -71,7 +70,7 @@ in
               };
             };
           }
-        ) network-placeholder-names
+        ) network_placeholder_names
       );
     };
   };
