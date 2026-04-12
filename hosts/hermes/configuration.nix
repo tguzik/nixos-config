@@ -11,14 +11,14 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-    # Include individual components
+    # Include system configuration by role
     ../../modules/baseline
-    ../../modules/openssh
-
-    ../../modules/gnupg.nix
-    ../../modules/flatpak.nix
-    ../../modules/podman.nix
-    ../../modules/sudo.nix
+    ../../modules/kind-physical.nix
+    ../../modules/role-development.nix
+    ../../modules/role-media-authoring.nix
+    ../../modules/role-media-playback.nix
+    ../../modules/role-office.nix
+    ../../modules/role-llm.nix
 
     # Include settings containing non-public data
     ../../homestead/sops-secrets.nix
@@ -45,36 +45,11 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  networking = {
-    hostName = "hermes";
-
-    # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    # Enable networking
-    networkmanager.enable = true;
-
-    # Open ports in the firewall.
-    # networking.firewall.allowedTCPPorts = [ ... ];
-    # networking.firewall.allowedUDPPorts = [ ... ];
-    # Or disable the firewall altogether.
-    # networking.firewall.enable = false;
-  };
+  networking.hostName = "hermes";
 
   services = {
-    xserver = {
-      # Enable the X11 windowing system.
-      enable = true;
-
-      # Configure keymap in X11
-      xkb = {
-        layout = "pl";
-        variant = "";
-      };
-    };
+    # Enable the X11 windowing system.
+    xserver.enable = true;
 
     # Enable the GNOME Desktop Environment.
     displayManager.gdm.enable = true;
@@ -118,26 +93,8 @@
       "wheel"
     ];
     packages = with pkgs; [
-      calibre
-      devenv
-      ffmpeg
       firefox
-      gdb
-      ghex
-      gimp
-      gnucash
-      graphviz
-      imagemagick
-      jq
-      jetbrains.idea
-      keepassxc
       kopia-ui
-      spotify
-      thunderbird
-      veracrypt
-      vlc
-      vscodium
-      zed-editor
     ];
   };
 
@@ -154,26 +111,9 @@
     # $ nix search wget
     systemPackages = with pkgs; [
       # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-      btop
-      file
-      gitFull
-      go-task
-      kopia
-      mc
-      nano
-      netcat-gnu
-      nix-diff
-      nixfmt
-      ripgrep
-      tmux
-      vim
-      wget
-    ];
 
-    # System-level variables
-    variables = {
-      EDITOR = "vim";
-    };
+      kopia # https://github.com/kopia/kopia # Cross-platform backup tool
+    ];
 
     # Session-specific variables
     sessionVariables = {

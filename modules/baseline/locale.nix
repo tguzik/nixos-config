@@ -1,5 +1,4 @@
 _: {
-  time.timeZone = "Europe/Warsaw";
   console.keyMap = "pl2";
   i18n = {
     defaultLocale = "en_US.UTF-8";
@@ -15,4 +14,9 @@ _: {
       LC_TIME = "pl_PL.UTF-8";
     };
   };
+  services.xserver.xkb = {
+    layout = "pl";
+    variant = "";
+  };
+  time.timeZone = "Europe/Warsaw";
 }

@@ -12,12 +12,6 @@ let
   machine_ssh_key = "/etc/ssh/ssh_host_ed25519_key";
 in
 {
-  imports = [
-    # We need to enable OpenSSH to generate the host machine key, which will be used to
-    # generate age key for that machine to be able to decrypt secrets
-    ../modules/openssh
-  ];
-
   # There's also pkgs.ssh-to-age to generate an age key based on machine's SSH key,
   # however it is not needed at runtime
   environment.systemPackages = with pkgs; [
