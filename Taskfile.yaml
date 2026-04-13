@@ -23,7 +23,7 @@ tasks:
       echo "List all available tests with:"
       echo "[$] task --list-all"
 
-  build:
+  rebuild:build:
     desc: Builds new configuration without switching to it
     cmds:
       - task: rebuild:internal
@@ -31,19 +31,26 @@ tasks:
           COMMAND: build
           DEBUG: true
 
-  test:
+  rebuild:test:
     desc: Builds new configuration without updating the system symlink
     cmds:
       - task: rebuild:internal
         vars:
           COMMAND: test
 
-  switch:
-    desc: Builds new configuration and switches to it
+  rebuild:switch:
+    desc: Builds new configuration and immediately switches to it
     cmds:
       - task: rebuild:internal
         vars:
           COMMAND: switch
+
+  rebuild:boot:
+    desc: Builds new configuration and switches to it upon next reboot
+    cmds:
+      - task: rebuild:internal
+        vars:
+          COMMAND: boot
 
   rebuild:internal:
     internal: true
@@ -110,6 +117,18 @@ tasks:
     cmds:
       - cmd: mkdir -p  {{ .SECRETS_AGE_DIR | shellQuote }}
       - cmd: age-keygen -o  {{ .SECRETS_AGE_EFFECTIVE | shellQuote }}
+
+  secrets:sops:edit:
+    desc: Decrypts SOPS secrets and opens them for editing
+    interactive: true
+    preconditions:
+      - sh: command -v sops
+        msg: The sops command was not found.
+    cmds:
+      - for:
+          var: SECRETS_SOPS_FILES
+          as: SINGLE_FILE
+        cmd: sops edit {{ .SECRETS_SOPS_DIR | shellQuote }}/{{ .SINGLE_FILE | shellQuote }}
 
   secrets:sops:update-keys:
     desc: Re-encrypt SOPS secrets after adding or updating keys
