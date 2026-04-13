@@ -10,6 +10,7 @@
       go-task # https://github.com/go-task/task # Task runner / simpler Make alternative written in Go
       mc # https://github.com/MidnightCommander/mc # File Manager and User Shell for the GNU Project, known as Midnight Commander
       lsof # https://github.com/lsof-org/lsof # LiSt Open Files
+      ncdu # Disk usage analyzer with an ncurses interface
       nano # Small, user-friendly console text editor
       netcat-gnu # Utility which reads and writes data across network connections
       nix-diff # https://hackage.haskell.org/package/nix-diff # Explain why two Nix derivations differ
