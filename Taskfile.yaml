@@ -67,7 +67,7 @@ tasks:
   diff:
     desc: Generate a diff between running configuration and the most recently built derivation
     cmds:
-      - task: build
+      - task: rebuild:build
       - cmd: nvd diff  /run/current-system  ./result
 
   lint:
