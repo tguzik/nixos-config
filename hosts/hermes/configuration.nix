@@ -5,7 +5,7 @@
 # Ideas for later:
 # - [...]
 #
-{ pkgs, ... }:
+{ flake_primaryUsername, pkgs, ... }:
 {
   imports = [
     # Include the results of the hardware scan.
@@ -84,9 +84,9 @@
   security.rtkit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.tguzik = {
+  users.users.${flake_primaryUsername} = {
     isNormalUser = true;
-    description = "tguzik";
+    description = "Account for ${flake_primaryUsername}";
     extraGroups = [
       "cifs"
       "networkmanager"

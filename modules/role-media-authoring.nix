@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ flake_primaryUsername, pkgs, ... }:
 {
   imports = [
     ./baseline
   ];
 
-  environment.systemPackages = with pkgs; [
+  users.users.${flake_primaryUsername}.packages = with pkgs; [
     audacity # Sound editor with graphical UI
     gimp # GNU Image Manipulation Program
     inkscape # Vector graphics editor

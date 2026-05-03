@@ -1,7 +1,7 @@
 # TODO:
 # - Add a configuration switch to enable/disable GUI programs - move inclusion of IntelliJ, vscodium & friends when enabled
 #
-{ pkgs, ... }:
+{ flake_primaryUsername, pkgs, ... }:
 let
   gui_packages = with pkgs; [
     vscodium # Open source source code editor developed by Microsoft - VS Code without MS branding/telemetry/licensing.
@@ -20,7 +20,7 @@ in
     ./individual/podman.nix
   ];
 
-  environment.systemPackages =
+  users.users.${flake_primaryUsername}.packages =
     with pkgs;
     [
       devenv # https://github.com/cachix/devenv # Fast, Declarative, Reproducible, and Composable Developer Environments using Nix

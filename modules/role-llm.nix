@@ -1,11 +1,16 @@
-{ pkgs, pkgs-unstable, ... }:
+{
+  flake_primaryUsername,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 # pkgs-unstable is a non-standard input added in flake.nix
 {
   imports = [
     ./baseline
   ];
 
-  environment.systemPackages = with pkgs; [
+  users.users.${flake_primaryUsername}.packages = with pkgs; [
     opencode # https://github.com/anomalyco/opencode # AI coding agent built for the terminal # [$] ollama launch opencode
     oterm # https://github.com/ggozad/oterm # Text-based terminal client for Ollama
   ];

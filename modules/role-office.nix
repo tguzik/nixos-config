@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ flake_primaryUsername, pkgs, ... }:
 {
   imports = [
     ./baseline
   ];
 
-  environment.systemPackages = with pkgs; [
+  users.users.${flake_primaryUsername}.packages = with pkgs; [
     gnucash # Free software for double entry accounting
     hunspell # Spell checker
     hunspellDicts.en_GB-large # Hunspell dictionary for English (United Kingdom) Large from Wordlist

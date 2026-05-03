@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ flake_primaryUsername, pkgs, ... }:
 let
   unfree_gui_packages = with pkgs; [
     spotify # Play music from the Spotify music service
@@ -9,7 +9,7 @@ in
     ./baseline
   ];
 
-  environment.systemPackages =
+  users.users.${flake_primaryUsername}.packages =
     with pkgs;
     [
       calibre # Comprehensive e-book software
