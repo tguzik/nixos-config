@@ -22,11 +22,13 @@
         hermes = nixpkgs.lib.nixosSystem {
           specialArgs =
             let
+              flake_hasGui = true;
               flake_primaryUsername = "tguzik";
               system = "x86_64-linux";
             in
             {
               inherit flakeInputs;
+              inherit flake_hasGui;
               inherit flake_primaryUsername;
               pkgs-unstable = import nixpkgs-unstable {
                 inherit system;
