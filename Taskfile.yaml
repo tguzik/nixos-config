@@ -71,9 +71,14 @@ tasks:
 
   diff:
     desc: Generate a diff between running configuration and the most recently built derivation
+    interactive: true
+    vars:
+      BASE_DERIVATION: "/run/booted-system"
+      HEAD: "./result"
+      COLORS: "--color=always"
     cmds:
-      - task: rebuild:build
-      - cmd: nvd diff  /run/current-system  ./result
+      - cmd: nix-diff  {{ .COLORS }}  {{ .BASE_DERIVATION | shellQuote }}  {{ .HEAD | shellQuote }}
+      - cmd: dix       {{ .COLORS }}  {{ .BASE_DERIVATION | shellQuote }}  {{ .HEAD | shellQuote }}
 
   lint:
     desc: Runs static code analysis on source files
