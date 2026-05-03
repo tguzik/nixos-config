@@ -1,16 +1,26 @@
 # TODO:
 # - Add a configuration switch to enable/disable GUI programs - move inclusion of IntelliJ, vscodium & friends when enabled
 #
-{ flake_primaryUsername, pkgs, ... }:
+{
+  config,
+  flake_primaryUsername,
+  lib,
+  pkgs,
+  ...
+}:
 let
   gui_packages = with pkgs; [
     vscodium # Open source source code editor developed by Microsoft - VS Code without MS branding/telemetry/licensing.
     ghex # Hex editor for GNOME desktop environment
     zed-editor # https://github.com/zed-industries/zed # High-performance, multiplayer code editor from the creators of Atom and Tree-sitter
   ];
-  unfree_gui_packages = with pkgs; [
-    jetbrains.idea # Java, Kotlin, Groovy and Scala IDE from Jetbrains
-  ];
+  #
+  # These packages will be included only when `config.nixpkgs.config.allowUnfree` is `true`
+  unfree_gui_packages =
+    with pkgs;
+    lib.optionals config.nixpkgs.config.allowUnfree [
+      jetbrains.idea # Java, Kotlin, Groovy and Scala IDE from Jetbrains
+    ];
 in
 {
   imports = [

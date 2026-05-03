@@ -1,8 +1,18 @@
-{ flake_primaryUsername, pkgs, ... }:
+{
+  config,
+  flake_primaryUsername,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  unfree_gui_packages = with pkgs; [
-    spotify # Play music from the Spotify music service
-  ];
+  #
+  # These packages will be included only when `config.nixpkgs.config.allowUnfree` is `true`
+  unfree_gui_packages =
+    with pkgs;
+    lib.optionals config.nixpkgs.config.allowUnfree [
+      spotify # Play music from the Spotify music service
+    ];
 in
 {
   imports = [
