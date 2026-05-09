@@ -24,6 +24,7 @@
     ../../homestead/sops-secrets.nix
     ../../homestead/networks.nix
     ../../homestead/cifs.nix
+    ../../homestead/syncthing.nix
   ];
 
   # Allow unfree packages

@@ -73,7 +73,7 @@ tasks:
     desc: Generate a diff between running configuration and the most recently built derivation
     interactive: true
     vars:
-      BASE_DERIVATION: "/run/booted-system"
+      BASE_DERIVATION: "/run/current-system"
       HEAD: "./result"
       COLORS: "--color=always"
     cmds:
