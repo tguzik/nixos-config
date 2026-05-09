@@ -6,12 +6,12 @@
 # for a more complex example.
 keys:
   - &user_tguzik age1u0hzfzehcjtvrjmxzvu5h74cgkrdyzfh5f8lh2dfxwdxq4d2g3zqlm2623
-  - &machine_hermes age1en6wd2jdnz8x8mcjskx7e5z6w0sxp88ll4f3yahwgdt8jw53jv9sshtcqn
+  - &machine_asus-expertbook-p5 age1en6wd2jdnz8x8mcjskx7e5z6w0sxp88ll4f3yahwgdt8jw53jv9sshtcqn
 creation_rules:
   - path_regex: homestead/[^/]+\.(yaml|json|env|ini|properties)$
     key_groups:
       - age:
           - *user_tguzik
-          - *machine_hermes
+          - *machine_asus-expertbook-p5
 
 # eof

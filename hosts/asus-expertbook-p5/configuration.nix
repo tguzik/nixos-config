@@ -45,7 +45,7 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  networking.hostName = "hermes";
+  networking.hostName = "asus-expertbook-p5";
 
   services = {
     # Enable the X11 windowing system.
@@ -86,7 +86,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${flake_primaryUsername} = {
     isNormalUser = true;
-    description = "Account for ${flake_primaryUsername}";
+    description = "${flake_primaryUsername}'s account";
     extraGroups = [
       "cifs"
       "networkmanager"

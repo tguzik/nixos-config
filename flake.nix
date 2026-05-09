@@ -19,7 +19,7 @@
     }:
     {
       nixosConfigurations = {
-        hermes = nixpkgs.lib.nixosSystem {
+        "asus-expertbook-p5" = nixpkgs.lib.nixosSystem {
           specialArgs =
             let
               flake_hasGui = true;
@@ -36,7 +36,7 @@
             };
 
           modules = [
-            ./hosts/hermes/configuration.nix
+            ./hosts/asus-expertbook-p5/configuration.nix
             sops-nix.nixosModules.sops
           ];
         };
