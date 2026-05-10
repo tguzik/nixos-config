@@ -7,11 +7,15 @@
 keys:
   - &user_tguzik age1u0hzfzehcjtvrjmxzvu5h74cgkrdyzfh5f8lh2dfxwdxq4d2g3zqlm2623
   - &machine_asus-expertbook-p5 age1en6wd2jdnz8x8mcjskx7e5z6w0sxp88ll4f3yahwgdt8jw53jv9sshtcqn
+  - &machine_ms-r1 age1l8h25chtaknvkfw3n6c9hl2yttgfpngs5k4pv46ztwpvv3z6lqxq7xj0se
+  - &machine_nuc-frost-canyon age1c0d8qn39x79vcvsesafg9xvle6wtluswu4cmsc75f4xdmm0d753qdr64qv
 creation_rules:
-  - path_regex: homestead/[^/]+\.(yaml|json|env|ini|properties)$
+  - path_regex: homestead/[^/]+\.(ya?ml|json|env|ini|properties)$
     key_groups:
       - age:
           - *user_tguzik
           - *machine_asus-expertbook-p5
+          - *machine_ms-r1
+          - *machine_nuc-frost-canyon
 
 # eof

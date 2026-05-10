@@ -97,6 +97,13 @@ tasks:
   secrets:age:
     desc: Prints public Age keys for the current user and current machine
     silent: true
+    cmds:
+      - task: secrets:age:user
+      - task: secrets:age:machine
+
+  secrets:age:user:
+    desc: Prints public Age key for the current user
+    silent: true
     preconditions:
       - sh: command -v age-keygen
         msg: The age-keygen command was not found.
@@ -104,15 +111,23 @@ tasks:
         msg: |
           Key file does not exists: {{ .SECRETS_AGE_EFFECTIVE }}
           Make sure you have generated the key with the other task first.
+    cmds:
+      - cmd: echo "Public Age key of the current user:"
+      - cmd: age-keygen -y {{ .SECRETS_AGE_EFFECTIVE | shellQuote }}
 
+  secrets:age:machine:
+    desc: Prints public Age key for the current machine
+    silent: true
+    preconditions:
       - sh: test -f {{ .MACHINE_SSH_PUBKEY | shellQuote }}
         msg: |
           Machine's public SSH key does not exist: {{ .MACHINE_SSH_PUBKEY }}
           Make sure you have enabled the OpenSSH Nix service and ran nixos-rebuild.
+
+      - sh: command -v ssh-to-age
+        msg: The ssh-to-age command was not found.
     cmds:
-      - cmd: echo "Public Age key of the current user:"
-      - cmd: age-keygen -y {{ .SECRETS_AGE_EFFECTIVE | shellQuote }}
-      - cmd: echo -e "\nPublic Age key converted from the current machine's SSH key:"
+      - cmd: echo "Public Age key converted from the current machine's SSH key:"
       - cmd: ssh-to-age < {{ .MACHINE_SSH_PUBKEY | shellQuote }}
 
   secrets:age:keygen:personal:

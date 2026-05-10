@@ -40,6 +40,44 @@
             sops-nix.nixosModules.sops
           ];
         };
+        "ms-r1" = nixpkgs.lib.nixosSystem {
+          specialArgs =
+            let
+              flake_hasGui = true;
+              flake_primaryUsername = "tguzik";
+              system = "aarch64-linux";
+            in
+            {
+              inherit flakeInputs;
+              inherit flake_hasGui;
+              inherit flake_primaryUsername;
+              pkgs-unstable = import nixpkgs-unstable {
+                inherit system;
+              };
+            };
+
+          modules = [
+            ./hosts/ms-r1/configuration.nix
+            sops-nix.nixosModules.sops
+          ];
+        };
+        "nuc-frost-canyon" = nixpkgs.lib.nixosSystem {
+          specialArgs =
+            let
+              flake_hasGui = true;
+              flake_primaryUsername = "tv";
+            in
+            {
+              inherit flakeInputs;
+              inherit flake_hasGui;
+              inherit flake_primaryUsername;
+            };
+
+          modules = [
+            ./hosts/nuc-frost-canyon/configuration.nix
+            sops-nix.nixosModules.sops
+          ];
+        };
       };
     };
 }

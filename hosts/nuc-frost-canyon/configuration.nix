@@ -1,9 +1,6 @@
-#
-# Ideas for later:
-# - Manage dotfiles with Home Manager
-# - Declarative Syncthing configuration
-# - [...]
-#
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
 { flake_primaryUsername, pkgs, ... }:
 {
   imports = [
@@ -13,32 +10,30 @@
     # Include system configuration by role
     ../../modules/baseline
     ../../modules/kind-physical.nix
-    ../../modules/role-development.nix
-    ../../modules/role-media-authoring.nix
     ../../modules/role-media-playback.nix
-    ../../modules/role-office.nix
-    ../../modules/role-llm.nix
 
     # Include settings containing non-public data
     ../../homestead/sops-secrets.nix
     ../../homestead/networks.nix
     ../../homestead/cifs.nix
-    ../../homestead/syncthing.nix
   ];
 
-  # Allow unfree packages
+  # Allow unfree packages (spotify etc.)
   nixpkgs.config.allowUnfree = true;
 
-  networking.hostName = "asus-expertbook-p5";
+  networking.hostName = "nuc-frost-canyon";
+
+  # Enable networking
+  networking.networkmanager.enable = true;
 
   services = {
     # Enable the X11 windowing system.
     # You can disable this if you're only using the Wayland session.
     xserver.enable = true;
 
-    # Enable the GNOME Desktop Environment.
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    # Enable the KDE Plasma Desktop Environment.
+    displayManager.sddm.enable = true;
+    desktopManager.plasma6.enable = true;
 
     # Enable CUPS to print documents.
     printing.enable = true;
@@ -57,53 +52,37 @@
       # no need to redefine it in your config for now)
       #media-session.enable = true;
     };
-
-    # Enable touchpad support (enabled default in most desktopManager).
-    # services.xserver.libinput.enable = true;
-
-    # Enable the OpenSSH daemon.
-    # services.openssh.enable = true;
   };
 
   # Enable sound with pipewire.
   security.rtkit.enable = true;
 
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${flake_primaryUsername} = {
     isNormalUser = true;
-    description = "${flake_primaryUsername}'s account";
+    description = "tv";
     extraGroups = [
       "cifs"
       "networkmanager"
       "wheel"
     ];
     packages = with pkgs; [
-      firefox
-      kopia-ui
+      kdePackages.kate
     ];
   };
 
-  programs = {
-    firefox.enable = true;
+  # Install firefox.
+  programs.firefox.enable = true;
 
-    # Some programs need SUID wrappers, can be configured further or are
-    # started in user sessions.
-    # mtr.enable = true;
-  };
-
-  environment = {
-    # List packages installed in system profile. To search, run:
-    # $ nix search wget
-    systemPackages = with pkgs; [
-      # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-      vim
-    ];
-
-    # Session-specific variables
-    sessionVariables = {
-      BROWSER = "firefox";
-    };
-  };
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

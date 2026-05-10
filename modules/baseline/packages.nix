@@ -8,6 +8,7 @@
       file # Program that shows the type of files
       gitFull # Distributed version control system
       go-task # https://github.com/go-task/task # Task runner / simpler Make alternative written in Go
+      kopia # https://github.com/kopia/kopia # Cross-platform backup tool
       lsof # https://github.com/lsof-org/lsof # LiSt Open Files
       mc # https://github.com/MidnightCommander/mc # File Manager and User Shell for the GNU Project, known as Midnight Commander
       nano # Small, user-friendly console text editor

@@ -33,30 +33,23 @@
     initrd = {
       availableKernelModules = [
         "xhci_pci"
-        "thunderbolt"
-        "nvme"
+        "ahci"
+        "usbhid"
         "usb_storage"
         "sd_mod"
+        "sdhci_pci"
       ];
-      luks.devices = {
-        "luks-927c3542-7553-4c44-b0e2-329d86104211" = {
-          device = "/dev/disk/by-uuid/927c3542-7553-4c44-b0e2-329d86104211";
-        };
-        "luks-b7458376-da88-4a34-8c50-145c25ddd4fc" = {
-          device = "/dev/disk/by-uuid/b7458376-da88-4a34-8c50-145c25ddd4fc";
-        };
-      };
       kernelModules = [ ];
     };
   };
 
   fileSystems = {
     "/" = {
-      device = "/dev/mapper/luks-b7458376-da88-4a34-8c50-145c25ddd4fc";
+      device = "/dev/disk/by-uuid/5f43f411-a02c-4de8-8742-4d6906a737d8";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/6710-C197";
+      device = "/dev/disk/by-uuid/5B1C-B090";
       fsType = "vfat";
       options = [
         "fmask=0077"
@@ -66,7 +59,7 @@
   };
 
   swapDevices = [
-    { device = "/dev/mapper/luks-927c3542-7553-4c44-b0e2-329d86104211"; }
+    { device = "/dev/disk/by-uuid/a60f5f96-cd60-4f8b-a6db-66f0b17fe83f"; }
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
