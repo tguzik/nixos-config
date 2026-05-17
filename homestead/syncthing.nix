@@ -25,5 +25,11 @@ in
     dataDir = "/home/${flake_primaryUsername}/syncthing";
     guiPasswordFile = config.sops.secrets."${syncthing_gui_password_secret_name}".path;
     settings.gui.user = flake_primaryUsername;
+
+    # Don't auto-delete devices or folders added through the web interface.
+    # The device IDs could be added and configured declaratively only after moving this whole configuration file
+    # to a private repository.
+    overrideDevices = false;
+    overrideFolders = false;
   };
 }
