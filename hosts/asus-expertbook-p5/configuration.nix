@@ -36,9 +36,9 @@
     # You can disable this if you're only using the Wayland session.
     xserver.enable = true;
 
-    # Enable the GNOME Desktop Environment.
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    # Enable the KDE Plasma Desktop Environment.
+    displayManager.sddm.enable = true;
+    desktopManager.plasma6.enable = true;
 
     # Enable CUPS to print documents.
     printing.enable = true;
@@ -80,6 +80,8 @@
     packages = with pkgs; [
       firefox
       kopia-ui
+      kitty # https://github.com/kovidgoyal/kitty # Fast, feature-rich, GPU based terminal emulator
+      yazi # https://github.com/sxyazi/yazi # Blazing fast terminal file manager written in Rust, based on async I/O
     ];
   };
 
