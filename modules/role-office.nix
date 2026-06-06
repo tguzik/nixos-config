@@ -11,6 +11,7 @@ let
     with pkgs;
     lib.optionals flake_hasGui [
       gnucash # Free software for double entry accounting
+      kdePackages.kalk # https://invent.kde.org/utilities/kalk # Kalk is a powerful cross-platform calculator app
       keepassxc # Offline password manager with many features
       libreoffice # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
       thunderbird # Full-featured e-mail client
