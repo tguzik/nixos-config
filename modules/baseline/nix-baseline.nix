@@ -17,12 +17,11 @@ _: {
       # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
       auto-optimise-store = true;
 
-      # Allow DevEnv to merge binary caches with the system Nix store
-      extra-substituters = [
-        "https://devenv.cachix.org"
-      ];
-      extra-trusted-public-keys = [
-        "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+      # Names of users or usergroups that have additional rights when connecting to the nix daemon, such as the
+      # ability to specify additional binary caches, or to import unsigned NARs.
+      trusted-users = [
+        "root" # specific username
+        "@wheel" # anyone within that group
       ];
     };
   };
