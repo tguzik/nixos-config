@@ -18,6 +18,7 @@
       gimp # GNU Image Manipulation Program
       inkscape # Vector graphics editor
       krita # Free and open source painting application
+      pkgs.kdePackages.kdenlive # Free and open source video editor, based on MLT Framework and KDE Frameworks
       # davinci-resolve # UNFREE, requires discrete GPU # Professional video editing, color, effects and audio post-processing
     ];
 }
