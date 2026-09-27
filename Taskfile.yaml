@@ -77,8 +77,8 @@ tasks:
       HEAD: "./result"
       COLORS: "--color=always"
     cmds:
-      - cmd: nix-diff  {{ .COLORS }}  {{ .BASE_DERIVATION | shellQuote }}  {{ .HEAD | shellQuote }}
-      - cmd: dix       {{ .COLORS }}  {{ .BASE_DERIVATION | shellQuote }}  {{ .HEAD | shellQuote }}
+      - cmd: nix-diff  {{ .COLORS }}  {{ .HEAD | shellQuote }}  {{ .BASE_DERIVATION | shellQuote }}
+      - cmd: dix       {{ .COLORS }}  {{ .HEAD | shellQuote }}  {{ .BASE_DERIVATION | shellQuote }}
 
   lint:
     desc: Runs static code analysis on source files
