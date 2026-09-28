@@ -38,8 +38,8 @@ in
       direnv # https://direnv.net/ # Shell extension that manages your environment
       gdb # GNU Project debugger
       hextazy # https://github.com/0xfalafel/hextazy # TUI hexeditor in Rust with colored bytes
-      jq # https://github.com/jqlang/jq # Command-line JSON processor
-      yq # https://github.com/kislyuk/yq # Command-line YAML/XML/TOML processor - jq wrapper for YAML, XML, TOML documents
+      ltrace # https://gitlab.com/cespedes/ltrace # Library call tracer
+      strace # https://github.com/strace/strace # System call tracer for Linux
     ]
     ++ gui_packages
     ++ unfree_gui_packages;
