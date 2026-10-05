@@ -14,8 +14,10 @@ let
   gui_packages =
     with pkgs;
     lib.optionals flake_hasGui [
+      gdbgui # https://github.com/cs01/gdbgui # GUI for GDB. It's browser-based, but still in this category.
+      ghex # https://gitlab.gnome.org/GNOME/ghex # Hex editor for GNOME desktop environment
+      ghidra # https://github.com/NationalSecurityAgency/ghidra # Software reverse engineering (SRE) suite of tools
       vscodium # Open source source code editor developed by Microsoft - VS Code without MS branding/telemetry/licensing.
-      ghex # Hex editor for GNOME desktop environment
     ];
   unfree_gui_packages =
     with pkgs;
